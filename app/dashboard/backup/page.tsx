@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { getBackups, createBackup, updateBackup, deleteBackup } from "@/lib/api";
 import { DatabaseBackup, Plus, Trash2, CheckCircle2, Circle, CalendarClock } from "lucide-react";
 
-function daysLeft(date) {
-  return Math.ceil((new Date(date) - new Date()) / (1000 * 60 * 60 * 24));
+function daysLeft(date: string) {
+  return Math.ceil((new Date(date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
 }
 
-function statusBadge(date, done) {
+function statusBadge(date: string, done: boolean) {
   if (done) return <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">✓ تم</span>;
   const d = daysLeft(date);
   if (d < 0) return <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700">متأخر</span>;
@@ -16,8 +16,16 @@ function statusBadge(date, done) {
   return <span className="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">بعد {d} يوم</span>;
 }
 
+interface Backup {
+  _id: string;
+  title: string;
+  backupDate: string;
+  notes?: string;
+  done: boolean;
+}
+
 export default function BackupPage() {
-  const [backups, setBackups] = useState([]);
+  const [backups, setBackups] = useState<Backup[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ title: "", backupDate: "", notes: "" });
   const [loading, setLoading] = useState(false);
@@ -29,7 +37,7 @@ export default function BackupPage() {
 
   useEffect(() => { load(); }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     await createBackup(form);
@@ -39,12 +47,12 @@ export default function BackupPage() {
     setLoading(false);
   };
 
-  const toggleDone = async (b) => {
+  const toggleDone = async (b: { _id: string; done: boolean }) => {
     await updateBackup(b._id, { done: !b.done });
     await load();
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     await deleteBackup(id);
     await load();
   };
