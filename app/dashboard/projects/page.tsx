@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Globe, Plus, Search, Users, CheckCircle, AlertTriangle, Wrench } from "lucide-react";
 import { getProjects, getProjectStats, createProject, updateProject, deleteProject } from "@/lib/api";
@@ -9,15 +9,32 @@ import { Modal } from "@/components/ui/Modal";
 import { StatsCard } from "@/components/services/StatsCard";
 import toast from "react-hot-toast";
 
+type Project = {
+  _id: string;
+  clientName: string;
+  projectName: string;
+  domain?: string;
+  renewalDate?: string;
+  maintenanceEndDate?: string;
+  notes?: string;
+};
+
+type Stats = {
+  total: number;
+  active: number;
+  expiringSoon: number;
+  maintenanceExpired: number;
+};
+
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState([]);
-  const [stats, setStats] = useState(null);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [stats, setStats] = useState<Stats | null>(null);
   const [search, setSearch] = useState("");
   const [showAdd, setShowAdd] = useState(false);
-  const [editTarget, setEditTarget] = useState(null);
+  const [editTarget, setEditTarget] = useState<Project | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const [p, s] = await Promise.all([getProjects({ search }), getProjectStats()]);
       setProjects(p.data);
@@ -25,11 +42,11 @@ export default function ProjectsPage() {
     } catch {
       toast.error("تعذر تحميل المشاريع");
     }
-  };
+  }, [search]);
 
-  useEffect(() => { fetchData(); }, [search]);
+  useEffect(() => { fetchData(); }, [fetchData]);
 
-  const handleAdd = async (form) => {
+  const handleAdd = async (form: Record<string, string>) => {
     setLoading(true);
     try {
       await createProject(form);
@@ -43,7 +60,7 @@ export default function ProjectsPage() {
     }
   };
 
-  const handleEdit = async (form) => {
+  const handleEdit = async (form: Record<string, string>) => {
     if (!editTarget) return;
     setLoading(true);
     try {
@@ -58,7 +75,7 @@ export default function ProjectsPage() {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     if (!confirm("حذف هذا المشروع؟")) return;
     try {
       await deleteProject(id);
@@ -128,7 +145,7 @@ export default function ProjectsPage() {
   );
 }
 
-function EmptyState({ onAdd }) {
+function EmptyState({ onAdd }: { onAdd: () => void }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}

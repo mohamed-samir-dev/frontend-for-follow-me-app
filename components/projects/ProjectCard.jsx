@@ -115,7 +115,7 @@ export function ProjectCard({ project, index, onEdit, onDelete }) {
       {/* Dates */}
       <div className="space-y-2">
         {project.renewalDate && (
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-1">
             <div className="flex items-center gap-1.5 text-xs text-gray-400">
               <Calendar size={12} />
               <span>تجديد الدومين</span>
@@ -129,7 +129,7 @@ export function ProjectCard({ project, index, onEdit, onDelete }) {
           </div>
         )}
         {project.maintenanceEndDate && (
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-1">
             <div className="flex items-center gap-1.5 text-xs text-gray-400">
               <Wrench size={12} />
               <span>انتهاء الصيانة</span>
