@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Server, PlusCircle, Settings, Zap, StickyNote, Star, Globe, X } from "lucide-react";
+import { LayoutDashboard, Server, PlusCircle, Settings, Zap, StickyNote, Star, Globe, X, DatabaseBackup } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +13,7 @@ const navItems = [
   { href: "/dashboard/notes", label: "الملاحظات", icon: StickyNote },
   { href: "/dashboard/favorites", label: "المفضلة", icon: Star },
   { href: "/dashboard/settings", label: "الإعدادات", icon: Settings },
+  { href: "/dashboard/backup", label: "النسخ الاحتياطي", icon: DatabaseBackup },
 ];
 
 function SidebarContent({ onClose }) {
