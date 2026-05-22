@@ -1,13 +1,14 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Server, PlusCircle, Settings, Zap, StickyNote, Star } from "lucide-react";
+import { LayoutDashboard, Server, PlusCircle, Settings, Zap, StickyNote, Star, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/dashboard", label: "لوحة التحكم", icon: LayoutDashboard },
   { href: "/dashboard/services", label: "الخدمات", icon: Server },
+  { href: "/dashboard/projects", label: "مشاريع العملاء", icon: Globe },
   { href: "/dashboard/add", label: "إضافة خدمة", icon: PlusCircle },
   { href: "/dashboard/notes", label: "الملاحظات", icon: StickyNote },
   { href: "/dashboard/favorites", label: "المفضلة", icon: Star },

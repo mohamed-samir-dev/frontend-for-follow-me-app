@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 const titles = {
   "/dashboard": "لوحة التحكم",
   "/dashboard/services": "جميع الخدمات",
+  "/dashboard/projects": "مشاريع العملاء",
   "/dashboard/add": "إضافة خدمة جديدة",
   "/dashboard/notes": "الملاحظات",
   "/dashboard/favorites": "المفضلة",
